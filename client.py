@@ -1,5 +1,5 @@
 
-import grpc, sys
+import grpc, sys, json
 
 import grpc_py_database_accessing.api.grpc as api
 
@@ -15,17 +15,25 @@ class Database:
         self.stub = api.DatabaseStub(self.conn)
         self.dbHost = dbHost
     
-    def get(self, columns: str, table: str, condition: str) -> api.GetDbResponse:
-        return self.stub.GetDb(api.GetDbRequest(
+    def get(self, columns: str, table: str, condition: str) -> list | str:
+        req = self.stub.GetDb(api.GetDbRequest(
             columns=columns, table=table, condition=condition, db_host=self.dbHost))
+        if req.status != "ok":
+            return [], req.status
+        data = json.loads(req.data.decode("utf-8"))
+        return data if data else [], req.status
 
     def insert(self, table: str, columns: str, values: str) -> api.InsertDbResponse:
         return self.stub.InsertDb(api.InsertDbRequest(
             table=table, columns=columns, values=values, db_host=self.dbHost))
 
-    def delete(self, table : str, condition : str) -> api.DeleteDbResponse:
+    def delete(self, table: str, condition: str) -> api.DeleteDbResponse:
         return self.stub.DeleteDb(api.DeleteDbRequest(
             table=table, condition=condition, db_host=self.dbHost))
+
+    def update(self, table: str, to_set: str, condition: str, db_host: str) -> api.UpdateDbResponse:
+        return self.stub.UpdateDb(api.UpdateDbRequest(
+            table=table, to_set=to_set, condition=condition, db_host=db_host))
     
 
 def run(host):

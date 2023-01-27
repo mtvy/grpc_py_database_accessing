@@ -8,6 +8,7 @@ service Database {
     rpc GetDb    (GetDbRequest)    returns (GetDbResponse)    {}
     rpc InsertDb (InsertDbRequest) returns (InsertDbResponse) {}
     rpc DeleteDb (DeleteDbRequest) returns (DeleteDbResponse) {}
+    rpc UpdateDb (UpdateDbRequest) returns (UpdateDbResponse) {}
 }
 
 message GetDbRequest {
@@ -23,7 +24,6 @@ message GetDbResponse {
     bytes data = 2;
 }
 
-
 message InsertDbRequest {
     string table = 1;
     string columns = 2;
@@ -38,9 +38,20 @@ message InsertDbResponse {
 message DeleteDbRequest {
     string table = 1;
     string condition = 2;
-    string db_host = 4;
+    string db_host = 3;
 }
 
 message DeleteDbResponse {
     string status = 1;
 }
+
+message UpdateDbRequest {
+    string table = 1;
+    string to_set = 2;
+    string condition = 3;
+    string db_host = 4;
+}
+
+message UpdateDbResponse {
+    string status = 1;
+} 
