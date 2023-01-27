@@ -31,9 +31,9 @@ class Database:
         return self.stub.DeleteDb(api.DeleteDbRequest(
             table=table, condition=condition, db_host=self.dbHost))
 
-    def update(self, table: str, to_set: str, condition: str, db_host: str) -> api.UpdateDbResponse:
+    def update(self, table: str, to_set: str, condition: str) -> api.UpdateDbResponse:
         return self.stub.UpdateDb(api.UpdateDbRequest(
-            table=table, to_set=to_set, condition=condition, db_host=db_host))
+            table=table, to_set=to_set, condition=condition, db_host=self.dbHost))
     
 
 def run(host):
