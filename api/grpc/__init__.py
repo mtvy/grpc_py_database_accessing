@@ -1,5 +1,5 @@
 
-from grpc_py_database_accessing.api.grpc.database_pb2 import (
+from .database_pb2 import (
     GetDbRequest, 
     GetDbResponse, 
     InsertDbRequest, 
@@ -10,7 +10,7 @@ from grpc_py_database_accessing.api.grpc.database_pb2 import (
     UpdateDbRequest,
 )
 
-from grpc_py_database_accessing.api.grpc.database_pb2_grpc import ( 
+from .database_pb2_grpc import ( 
     DatabaseServicer, 
     DatabaseStub, 
     add_DatabaseServicer_to_server,
